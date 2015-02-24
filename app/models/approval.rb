@@ -17,28 +17,26 @@ class Approval < ActiveRecord::Base
   PROP_NAME = 'approved'
 
   class << self
+    def create_from_revprop(changeset_id, propvalue)
+      approval_info = parse_approval(propvalue)
 
-    # def changeset_approvable?(changeset)
-    #   if Setting.plugin_approval_plugin['disallow_approve_pred_unapproved']
-    #     allowed_gap = Setting.plugin_approval_plugin['allow_approve_pred_unapproved_gap'].to_i
+      return self.create(
+         :changeset_id => changeset_id,
+         :approved_by => approval_info[:approved_by],
+         :approved_on => approval_info[:approved_on],
+         :revprop_already_exists => true
+       )
+    end
 
-    #     if allowed_gap < (changeset.revision.to_i - 1)
-    #       return false if changeset.repository.get_approvals(changeset.revision, changeset.revision.to_i - allowed_gap -1).empty?
-    #     end
-    #   end
-    #   return true
-    # end
-
-    # def changeset_approvable_by_user?(changeset, user)
-    #   if user == User.find_by_login(changeset.committer)
-    #     return false unless Setting.plugin_approval_plugin['allow_self_approve']
-    #   end
-    #   return true
-    # end
-
-    # def approve_string(user)
-    #   return"#{user.login} - #{Time.now}"
-    # end
+    private
+      # Converts the "login - timestamp" from string to a hash.
+      # { :approved_by => login , :approved_on => timestamp }
+      def parse_approval(approval_string)
+        return {
+          :approved_by => approval_string.rpartition(" - ").first,
+          :approved_on => approval_string.rpartition(" - ").last
+        }
+      end
   end
 
   def approver
@@ -62,23 +60,6 @@ class Approval < ActiveRecord::Base
       if !@revprop_already_exists
         changeset.repository.scm.set_rev_property(PROP_NAME, "#{approved_by} - #{approved_on}", changeset.identifier)
       end
-    end
-
-    # Converts the "login - timestamp" string to a hash.
-    # :name => login or username / date => formatted timestamp
-    def parse_approval(approval_string)
-      login = approval_string.rpartition(" - ").first
-      time = approval_string.rpartition(" - ").last
-
-      name = User.find_by_login(login).try(:name) || login
-
-      begin
-        date = format_time(Time.parse time)
-      rescue
-        date = time
-      end
-
-      return { :name => name, :date => date }
     end
 
 

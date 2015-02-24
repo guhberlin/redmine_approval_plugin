@@ -20,7 +20,7 @@ module RevisionAdapterPatch
     def initialize_with_properties(attributes={})
       initialize_without_properties(attributes)
 
-      self.properties = attributes[:properties] || []
+      self.properties = attributes[:properties] || {}
     end
   end
 

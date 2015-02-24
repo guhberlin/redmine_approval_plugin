@@ -46,11 +46,9 @@ module SubversionAdapterPatch
             end if logentry['paths'] && logentry['paths']['path']
             paths.sort! { |x,y| x[:path] <=> y[:path] }
 
-            revprops = []
+            revprops = {}
             each_xml_element(logentry['revprops'], 'property') do |property|
-              revprops << {:name => property['name'],
-                           :value => property['__content__']
-                          }
+              revprops[property['name'].to_sym] = property['__content__']
             end if logentry['revprops'] && logentry['revprops']['property']
 
             revisions << Redmine::Scm::Adapters::Revision.new({

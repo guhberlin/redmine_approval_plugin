@@ -1,0 +1,26 @@
+<% if @project.module_enabled?(:approval_plugin) %>
+
+  <% if @changeset.nil? %>
+    <span style="color: <%= Setting.plugin_approval_plugin['unapproved_color'] %>">
+      <%= l(:approve_params_error) %>
+    </span>
+  <% else %>
+    <% if @changeset.approved? %>
+      <%= l(:approved_message, :name => @changeset.approver, :date => @changeset.approve_date) %>
+    <% elsif @changeset.approvable? %>
+
+      <span style="color: <%= Setting.plugin_approval_plugin['unapproved_color'] %>"><%= l(:revision_not_approved) %></span>
+      <% if User.current.allowed_to?({ :controller => 'approvals', :action => 'approve'}, @project) %>
+        <%= button_to l(:button_approve), {:controller => "approvals", :action => "approve", :project_id => @project.identifier, :changeset_id => @changeset.id }, :confirm => l(:approve_confirmation), :method => :post, :remote => false %>
+      <% end %>
+
+    <% else %>
+      <span style="color: <%= Setting.plugin_approval_plugin['unapproved_color'] %>">
+        <% @changeset.get_approve_errors.each do |i, msg| %>
+          <p><%=msg%></p>
+        <% end %>
+      </span>
+    <% end %>
+  <% end %>
+
+<% end %>

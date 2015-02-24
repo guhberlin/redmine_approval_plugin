@@ -1,0 +1,29 @@
+<p>
+  <%= label_tag("settings_allow_self_approve", l(:setting_allow_self_approve)) %>
+  <%= check_box_tag("settings[allow_self_approve]", "true", settings['allow_self_approve']) %>
+</p>
+
+
+<p>
+  <%= label_tag("settings_disallow_approve_pred_unapproved", l(:setting_allow_approval_only_when_pred_approved)) %>
+  <%= check_box_tag("settings[disallow_approve_pred_unapproved]", "true", settings['disallow_approve_pred_unapproved']) %>
+  <%= number_field_tag("settings[allow_approve_pred_unapproved_gap]", settings['allow_approve_pred_unapproved_gap'], :size => 6, :min => 0) %>
+  <em class="info"><%= l(:info_approve_pred_gap)%></em>
+</p>
+
+
+<p>
+  <%= label_tag("settings_unapproved_color", l(:setting_choose_unapproved_color)) %>
+  <%= text_field_tag("settings[unapproved_color]", settings['unapproved_color'], :size => 7) %>
+  <%= select_tag("color_drop_down", choose_unapproved_color().html_safe, :onchange => "settings_unapproved_color.value=this.value") %>
+  <em class="info"><%= l(:info_color_hex_info) %></em>
+</p>
+</div>
+
+
+<div class="box tabular settings">
+<p>
+  <%= label_tag("activate_approval_modules", l(:setting_activate_approval_modules)) %>
+  <%= link_to l(:activate), {:controller => "approvals", :action => "activate"}, :id => "activate_approval_modules", :confirm => l(:confirm_modul_activation), :method => :post, :remote => true %>
+  <em class="info"><%= l(:info_activate_approval_modules) %></em>
+</p>

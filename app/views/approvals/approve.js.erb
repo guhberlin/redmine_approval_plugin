@@ -1,0 +1,3 @@
+$("#content").prepend('<%= render_flash_messages %>');
+$("#approved").html('<%= escape_javascript(render :partial => 'approvals/approve_form') %>');
+<% flash.discard %>

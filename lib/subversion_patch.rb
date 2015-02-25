@@ -42,6 +42,9 @@ module SubversionPatch
                                              :committer    => revision.author,
                                              :committed_on => revision.time,
                                              :comments     => revision.message)
+                if !revision.properties[ Approval::PROP_NAME.to_sym ].nil?
+                  changeset.approve_from_revprop( revision.properties[ Approval::PROP_NAME.to_sym ] )
+                end
 
                 revision.paths.each do |change|
                   changeset.create_change(change)

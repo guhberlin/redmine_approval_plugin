@@ -66,6 +66,10 @@ module ChangesetPatch
       end
     end
 
+    def approve_from_revprop(propval)
+      Approval.create_from_revprop(id, propval)
+    end
+
   end
 end
 

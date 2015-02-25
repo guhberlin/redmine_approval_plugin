@@ -8,7 +8,8 @@ module ChangesetPatch
     base.send(:include, InstanceMethods)
 
     base.class_eval do
-      has_one :approval
+      # Approvals will be destroyed by the repository(-patch) if repository is destroyed!
+      has_one :approval , :dependent => :destroy
     end
   end
 

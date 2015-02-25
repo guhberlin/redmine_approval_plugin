@@ -10,6 +10,7 @@ module SubversionPatch
 
     base.class_eval do
       alias_method_chain :fetch_changesets, :approvals
+      alias_method_chain :clear_changesets, :approvals
     end
   end
 
@@ -57,6 +58,14 @@ module SubversionPatch
       end
     end
 
+    def clear_changesets_with_approvals
+      cs = Changeset.table_name
+      ap = Approval.table_name
+
+      connection.delete("DELETE FROM #{ap} WHERE #{ap}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
+
+      clear_changesets_without_approvals
+    end
   end
 end
 

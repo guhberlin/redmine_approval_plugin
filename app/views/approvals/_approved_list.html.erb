@@ -1,6 +1,5 @@
 <% if @project.module_enabled?(:approval_plugin)%>
 
-  <% approved_value = @approved_revisions[changeset.revision.to_s] %>
   <% if changeset.approved? %>
 
     <%= l(:approved_message_list, :name => changeset.approver, :date => changeset.approve_date) %>

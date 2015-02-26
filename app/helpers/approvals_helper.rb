@@ -33,9 +33,9 @@ module ApprovalsHelper
   # end
 
 
-  def init_approved_revisions(repository, first_rev, last_rev)
-    # @approved_revisions = get_approved_revisions(repository, first_rev, last_rev)
-    @approved_revisions = repository.scm.rev_properties("approved", first_rev, last_rev)
-  end
+  # def init_approved_revisions(repository, first_rev, last_rev)
+  #   # @approved_revisions = get_approved_revisions(repository, first_rev, last_rev)
+  #   @approved_revisions = repository.scm.rev_properties("approved", first_rev, last_rev)
+  # end
 
 end

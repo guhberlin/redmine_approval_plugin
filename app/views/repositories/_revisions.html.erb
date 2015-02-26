@@ -34,9 +34,6 @@ end %>
 <tbody>
 <% show_diff = revisions.size > 1 %>
 <% line_num = 1 %>
-<% if @project.module_enabled?(:approval_plugin)%>
-	<% init_approved_revisions(@project.repository, revisions.first.revision, revisions.last.revision) %>
-<% end %>
 <% revisions.each do |changeset| %>
 <tr class="changeset <%= cycle 'odd', 'even' %>">
 <% id_style = (show_revision_graph ? "padding-left:#{(graph_space + 1) * 20}px" : nil) %>

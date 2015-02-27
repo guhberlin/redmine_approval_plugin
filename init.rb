@@ -37,6 +37,7 @@ ActionDispatch::Callbacks.to_prepare do
   Redmine::Scm::Adapters::SubversionAdapter.send(:include, SubversionAdapterPatch)
   Redmine::Scm::Adapters::Revision.send(:include, RevisionAdapterPatch)
   RepositoriesHelper.send(:include, ApprovalsHelper)
+  RepositoriesController.send(:include, RepositoriesControllerPatch)
 
   User.send(:include, UserPatch)
 

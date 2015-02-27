@@ -19,6 +19,26 @@ module SubversionPatch
 
   module InstanceMethods
 
+    def bulk_refresh_changesets(identifier_from=nil, limit=10)
+      identifier_from ||= latest_changeset.revision.to_i - (limit - 1)
+
+      revisions = scm.revisions('', identifier_from, identifier_from + (limit - 1))
+      changesets_queue = Hash[ changesets.
+        includes(:approval).
+        limit(limit).
+        offset(identifier_from-1).
+        reverse_order.
+        map { |changeset| [changeset.revision, changeset]}
+      ]
+
+      revisions.reverse_each do |revision|
+        changeset = changesets_queue[revision.identifier]
+        if !changeset.approved? && !revision.properties[ Approval::PROP_NAME.to_sym ].nil?
+          changeset.approve_from_revprop( revision.properties[ Approval::PROP_NAME.to_sym ] )
+        end
+      end
+    end
+
     def fetch_changesets_with_approvals
       scm_info = scm.info
       if scm_info

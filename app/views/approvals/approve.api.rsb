@@ -1,0 +1,16 @@
+api.changeset do
+  api.id          @changeset.id
+  api.identifier  @changeset.identifier
+  api.approved    @changeset.approved?
+  api.approved_by    @changeset.approver if @changeset.approved?
+  api.approved_on    @changeset.approve_date if @changeset.approved?
+
+  api.repository(:id => @changeset.repository.id)
+
+  api.array approve_errors do
+    @changeset.get_approve_errors.each do |error|
+      api.approve_error error
+    end
+  end if @changeset.get_approve_errors.any?
+
+end

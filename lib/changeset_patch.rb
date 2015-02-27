@@ -42,7 +42,7 @@ module ChangesetPatch
       !@approve_errors.any?
     end
     def get_approve_errors
-      @approve_errors
+      @approve_errors || []
     end
 
 

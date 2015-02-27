@@ -34,6 +34,7 @@ class ApprovalsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to request.referer || '/' }
       format.js
+      format.api
     end
   end
 

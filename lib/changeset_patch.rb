@@ -23,28 +23,19 @@ module ChangesetPatch
     end
 
     def approvable?
-      logger.info("--------------------------------------------------------------------------")
-      logger.info( "valid?" )
-
-
       tmp = Approval.new(
         :changeset_id => id,
         :approved_by => User.current.login,
         :revprop_already_exists => true
       )
 
-      logger.info(tmp.valid?)
-      logger.info(tmp.errors.any?)
-      logger.info(tmp.errors.pretty_inspect)
-      logger.info("--------------------------------------------------------------------------")
-
       @approve_errors = tmp.errors
-      !@approve_errors.any?
+      tmp.valid?
     end
+
     def get_approve_errors
       @approve_errors || []
     end
-
 
     def approver
       approval.approver

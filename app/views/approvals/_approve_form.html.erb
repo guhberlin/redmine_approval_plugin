@@ -11,7 +11,7 @@
 
       <span style="color: <%= Setting.plugin_approval_plugin['unapproved_color'] %>"><%= l(:revision_not_approved) %></span>
       <% if User.current.allowed_to?({ :controller => 'approvals', :action => 'approve'}, @project) %>
-        <%= button_to l(:button_approve), {:controller => "approvals", :action => "approve", :project_id => @project.identifier, :changeset_id => @changeset.id }, :confirm => l(:approve_confirmation), :method => :post, :remote => false %>
+        <%= approve_button(@project, @changeset) %>
       <% end %>
 
     <% else %>

@@ -2,23 +2,17 @@ class ApprovalsController < ApplicationController
   include ApprovalsHelper
   include ApplicationHelper
 
-  before_filter :find_project_by_project_id,  :only => [:approve]
+  before_filter :find_project                 :only => [:approve]
+  before_filter :find_repository_changeset    :only => [:approve]
   before_filter :authorize,                   :only => [:approve]
   before_filter :authorize_global,            :only => [:activate]
+  accept_api_auth :approve
   unloadable
 
 
   # Sets approved status as svn revision property
   def approve
     logger.info("in approvals controller: approve")
-    if Changeset.exists?(:id => params[:changeset_id])
-      @changeset = Changeset.find_by_id(params[:changeset_id])
-      # @project = @changeset.project
-    else
-      logger.info(l(:approve_params_error))
-      flash[:error] = l(:approve_params_error)
-      return
-    end
 
     logger.info("in approvals controller: approve?")
     if @changeset.approved?
@@ -60,5 +54,25 @@ class ApprovalsController < ApplicationController
       format.js
     end
   end
+
+
+
+
+  private
+  def find_repository_changeset
+    if params[:repository_id].present?
+      @repository = @project.repositories.find_by_identifier_param(params[:repository_id])
+    else
+      @repository = @project.repository
+    end
+    raise ActiveRecord::RecordNotFound if @repository.nil?
+
+    rev = params[:rev].blank? ? @repository.default_branch : params[:rev].to_s.strip
+    @changeset = @repository.find_changeset_by_name(rev)
+    raise ActiveRecord::RecordNotFound if @changeset.nil?
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
 
 end

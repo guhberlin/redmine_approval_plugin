@@ -20,9 +20,6 @@ module SubversionPatch
   module InstanceMethods
 
     def fetch_changesets_with_approvals
-      logger.info("--------------------------------------------------------------------------")
-      logger.info("alias method chain im subversion model patch (fetch_changesets_with_approvals)")
-      logger.info("--------------------------------------------------------------------------")
       scm_info = scm.info
       if scm_info
         # latest revision found in database

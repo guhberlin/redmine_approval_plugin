@@ -12,19 +12,24 @@ This Plugin adds the two-man rule to SVN repositories. It allows user to approve
 
 1. Copy the folder into your plugins folder in the redmine installation.
    (make sure the plugin is installed to +plugins/approval_plugin+)
-2. Perform the migration with +$ rake redmine:plugins:migrate+
+2. Perform the migration with
+     $ rake redmine:plugins:migrate
 3. Restart your Redmine web servers.
 4. Login and configure the plugin (Administration > Plugins > Configure)
 5. Activate the "approval plugin" module for projects in the Project Settings => Modules. (or for all Projects in the plugin configuration)
 6. Prepare the SVN repositories:
-   In order to make this plugin work you have to add/edit the +PATH TO REPOSITORY/hooks/pre-revprop-change+ file
-   Simply add the line +if [ "$ACTION" = "A" -a "$PROPNAME" = "approved" ]; then exit 0; fi+
+   In order to make this plugin work you have to add/edit the following file: <tt>PATH TO REPOSITORY/hooks/pre-revprop-change</tt>
+
+   Simply add the line
+     if [ "$ACTION" = "A" -a "$PROPNAME" = "approved" ]; then exit 0; fi
 
 == Uninstalling
 
-1. +$ rake redmine:plugins:migrate NAME=approval_plugin VERSION=0+
-1. delete the +approval_plugin+ folder
-2. change the +pre-revprop-change+ file
+1. Rerverse the migration
+     $ rake redmine:plugins:migrate NAME=approval_plugin VERSION=0
+2. delete the +approval_plugin+ folder
+3. change the +pre-revprop-change+ file
+
 Please note that approval information is also stored within svn revisin properties, so this information is still there once the plugin is uninstalled!
 
 

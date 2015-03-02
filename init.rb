@@ -4,7 +4,7 @@ Redmine::Plugin.register :approval_plugin do
   name 'Approval Plugin'
   author 'Alexander Lipinski'
   description 'This plugin adds an approval function for SVN revisions'
-  version '0.1.0'
+  version '1.0.0'
   author_url 'http://www.bancos.com'
 
 

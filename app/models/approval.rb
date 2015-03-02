@@ -10,7 +10,6 @@ class Approval < ActiveRecord::Base
   validates_uniqueness_of :changeset_id
   validate :approval_with_pred_unapproved_allowed, :approver_not_equal_to_committer
 
-  # before_validation :set_defaults
   after_initialize :set_defaults
   after_save :set_rev_prop
 
@@ -57,7 +56,7 @@ class Approval < ActiveRecord::Base
     end
 
     def set_rev_prop
-      if !@revprop_already_exists
+      if !@revprop_already_exists && changeset.repository.scm_name == 'Subversion'
         changeset.repository.scm.set_rev_property(PROP_NAME, "#{approved_by} - #{approved_on}", changeset.identifier)
       end
     end

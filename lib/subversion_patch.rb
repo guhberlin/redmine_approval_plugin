@@ -17,6 +17,7 @@ module SubversionPatch
   module InstanceMethods
 
     def bulk_refresh_changesets(identifier_from=nil, limit=10)
+      return if identifier_from.nil? && latest_changeset.nil?
       identifier_from ||= latest_changeset.revision.to_i - (limit - 1)
 
       revisions = scm.revisions('', identifier_from, identifier_from + (limit - 1))

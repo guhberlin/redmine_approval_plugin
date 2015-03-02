@@ -1,7 +1,4 @@
 
-
-
-
 module RepositoriesControllerPatch
 
   def self.included(base) # :nodoc:
@@ -46,5 +43,3 @@ module RepositoriesControllerPatch
     end
   end
 end
-
-# RepositoriesController.send(:include, RepositoriesControllerPatch)

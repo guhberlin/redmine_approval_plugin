@@ -1,4 +1,3 @@
-require_dependency 'pp'
 
 module ChangesetPatch
 
@@ -64,6 +63,3 @@ module ChangesetPatch
 
   end
 end
-
-# Changeset.send(:include, ChangesetPatch)
-# Changeset.send(:include, ApprovalsHelper)

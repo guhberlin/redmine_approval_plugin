@@ -21,28 +21,18 @@ Redmine::Plugin.register :approval_plugin do
 
 end
 
-# RepositoriesHelper.send(:include, ApprovalsHelper)
-
-require 'changeset_patch'
-require 'revision_patch'
-require 'settings_helper_patch'
-require 'subversion_adapter_patch'
-require 'subversion_patch'
-require 'user_patch'
-
-
+SettingsHelper.send(:include, SettingsHelperPatch)
+RepositoriesHelper.send(:include, ApprovalsHelper)
 
 ActionDispatch::Callbacks.to_prepare do
+  Redmine::Scm::Adapters::Revision.send(:include, RevisionPatch)
+
   Repository::Subversion.send(:include, SubversionPatch)
   Redmine::Scm::Adapters::SubversionAdapter.send(:include, SubversionAdapterPatch)
-  Redmine::Scm::Adapters::Revision.send(:include, RevisionAdapterPatch)
-  RepositoriesHelper.send(:include, ApprovalsHelper)
+
   RepositoriesController.send(:include, RepositoriesControllerPatch)
 
   User.send(:include, UserPatch)
 
-  SettingsHelper.send(:include, SettingsHelperPatch)
-
   Changeset.send(:include, ChangesetPatch)
-  Changeset.send(:include, ApprovalsHelper)
 end

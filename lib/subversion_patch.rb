@@ -1,7 +1,4 @@
 
-
-
-
 module SubversionPatch
 
   def self.included(base) # :nodoc:
@@ -85,5 +82,3 @@ module SubversionPatch
     end
   end
 end
-
-# Repository::Subversion.send(:include, SubversionPatch)

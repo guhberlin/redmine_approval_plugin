@@ -17,5 +17,3 @@ module UserPatch
   module InstanceMethods
   end
 end
-
-# User.send(:include, UserPatch)

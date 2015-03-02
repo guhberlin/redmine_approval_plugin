@@ -1,6 +1,5 @@
 
-
-module RevisionAdapterPatch
+module RevisionPatch
 
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
@@ -25,5 +24,3 @@ module RevisionAdapterPatch
   end
 
 end
-
-# Redmine::Scm::Adapters::Revision.send(:include, RevisionAdapterPatch)

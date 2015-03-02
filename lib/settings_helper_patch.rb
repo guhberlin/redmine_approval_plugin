@@ -1,3 +1,4 @@
+
 module SettingsHelperPatch
 
   def choose_unapproved_color
@@ -45,5 +46,3 @@ module SettingsHelperPatch
   end
 
 end
-
-SettingsHelper.send(:include, SettingsHelperPatch)

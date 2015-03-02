@@ -1,5 +1,3 @@
-
-require 'pp'
 require 'open3'
 
 module SubversionAdapterPatch
@@ -150,6 +148,3 @@ module SubversionAdapterPatch
   end
 
 end
-
-
-# Redmine::Scm::Adapters::SubversionAdapter.send(:include, SubversionAdapterPatch)

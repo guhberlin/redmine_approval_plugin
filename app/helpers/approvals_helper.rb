@@ -9,7 +9,7 @@ module ApprovalsHelper
       { :controller => "approvals", :action => "approve", :id => project, :repository_id => changeset.repository, :rev => rev},
       :confirm => l(:approve_confirmation),
       :method => :post,
-      :remote => true
+      :remote => false
     )
   end
 

@@ -25,12 +25,13 @@ SettingsHelper.send(:include, SettingsHelperPatch)
 RepositoriesHelper.send(:include, ApprovalsHelper)
 
 ActionDispatch::Callbacks.to_prepare do
-  Redmine::Scm::Adapters::Revision.send(:include, RevisionPatch)
-
   Repository::Subversion.send(:include, SubversionPatch)
   Redmine::Scm::Adapters::SubversionAdapter.send(:include, SubversionAdapterPatch)
 
+  Redmine::Scm::Adapters::Revision.send(:include, RevisionPatch)
+
   RepositoriesController.send(:include, RepositoriesControllerPatch)
+  Repository.send(:include, RepositoryPatch)
 
   User.send(:include, UserPatch)
 

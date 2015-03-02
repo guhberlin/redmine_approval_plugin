@@ -1,23 +1,24 @@
 = Approval Plugin
 
-This Plugin adds the two-man rule to SVN repositories. It allows user to approve of specific SVN revisions.
+This Plugin allows users to approve of specific revisions.
 
 == Features
 
-* sets SVN revision property if changeset gets approved
 * shows approved status of revisions in the repository
+* can be configured to follow two-men-rule
 * highlighting of unapproved revisions
+* sets SVN revision property if changeset gets approved in SVN-repositories
 
 == Installation
 
-1. Copy the folder into your plugins folder in the redmine installation.
-   (make sure the plugin is installed to +plugins/approval_plugin+)
+1. Copy the folder into your plugins folder in the Redmine installation.
+   (make sure the plugin is installed to <tt>plugins/approval_plugin</tt>)
 2. Perform the migration with
      $ rake redmine:plugins:migrate
 3. Restart your Redmine web servers.
 4. Login and configure the plugin (Administration > Plugins > Configure)
-5. Activate the "approval plugin" module for projects in the Project Settings => Modules. (or for all Projects in the plugin configuration)
-6. Prepare the SVN repositories:
+5. Activate the "approval plugin" module for the specific projects (Settings > Modules). Or for all projects in the plugin configurations.
+6. If you are using SVN repositories:
    In order to make this plugin work you have to add/edit the following file: <tt>PATH TO REPOSITORY/hooks/pre-revprop-change</tt>
 
    Simply add the line
@@ -27,22 +28,22 @@ This Plugin adds the two-man rule to SVN repositories. It allows user to approve
 
 1. Rerverse the migration
      $ rake redmine:plugins:migrate NAME=approval_plugin VERSION=0
-2. delete the +approval_plugin+ folder
-3. change the +pre-revprop-change+ file
+2. delete the <tt>approval_plugin</tt> folder
+3. change the <tt>pre-revprop-change</tt> file
 
-Please note that approval information is also stored within svn revisin properties, so this information is still there once the plugin is uninstalled!
+Please note that approval information for SVN-repositories is also stored within svn revisin properties, so this information is still there once the plugin is uninstalled!
 
 
 == Configuration
 
 === Permissions
 To approve revisions users have to have permission.
-Settings => 'Roles and permissions' Set the permission to approve for each role. (administrators always have permission)
+In Administration > 'Roles and permissions' set the permission to approve for each role. (administrators always have permission)
 
 === Plugin configuration
-Allow approval of own revisions. This allows the author of this revision to approve it himself.
-Approve only if preceding revisions are already approved. If checked user can only approve revisions if previous revisions are approved.
-The number indicates how big the gap to the last approved revision can be. e.g.: max gap = 5 => revision 25 can be approved if revision 19 or higher is already approved.
-Highlighting unapproved revisions. Defines the color in which the message "unapproved revision" will be highlighted in.
+* Allow approval of own revisions. This allows the author of this revision to approve it himself.
+* Approve only if preceding revisions are already approved. If checked user can only approve revisions if previous revisions are approved.
+The number indicates how big the gap to the last approved revision can be. e.g.: max gap = 5 means that revision 25 can be approved if revision 19 or higher is already approved.
+* Highlighting unapproved revisions. Defines the color in which the message "unapproved revision" will be highlighted in.
 
-Activate Approval Plugin module for all projects. By clicking this link the Plugin module will be activated for all projects with svn repositories.
+* Activate Approval Plugin module for all projects. By clicking this link the Plugin module will be activated for all projects with svn repositories.
